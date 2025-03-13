@@ -3,7 +3,7 @@
 
 const char* MAX_DIGIT_CH = "4294967296"; //2^32 , 10 symbs
 const unsigned long long MAX_DIGIT_INT = 4294967296;
-const int CELL_SIZE = 10; //количество цифр числа 2^32
+const int CELL_SIZE = 10; // number of digits in 2^32
 const unsigned int td = 32;
 
 BigInteger::BigInteger()
@@ -23,7 +23,7 @@ BigInteger::BigInteger(const std::string number)
     {
         minus_ = true;
         stSize -= 1;
-        tmp.erase(0, 1);//убираем минус
+        tmp.erase(0, 1); // erasing minus sign
 
     }
     if (tmp == "")
@@ -261,7 +261,7 @@ unsigned long long sToUI64(std::string str)
     return result;
 }
 
-unsigned long long sToUI64(std::string str, int end) //end - сколько цифр взять для перевода без учета знака
+unsigned long long sToUI64(std::string str, int end)  // end - how many digits to take not including sign
 {
     int index = 0;
     if (str[0] == '-')
@@ -278,7 +278,7 @@ unsigned long long sToUI64(std::string str, int end) //end - сколько ци
     return result;
 }
 
-unsigned int divideMAX(std::string& str)// в str сохраняем частное, возвращаем остаток
+unsigned int divideMAX(std::string& str)  // saving quotient in str , return remainder
 {
     if (str == "" || str == "0")
     {
@@ -301,7 +301,7 @@ unsigned int divideMAX(std::string& str)// в str сохраняем частн�
         str = "0";
         return (unsigned int)digit;
     }
-    else if (str.size() == CELL_SIZE) //digit >= MAX_DIGIT_INT
+    else if (str.size() == CELL_SIZE) // digit >= MAX_DIGIT_INT
     {
         str = to_string(digit / MAX_DIGIT_INT);
         return (unsigned int)(digit % MAX_DIGIT_INT);
@@ -478,7 +478,7 @@ void BigInteger::bitter()
     }
 }
 
-void BigInteger::badZeros()//нужная проверка для некоторых функций
+void BigInteger::badZeros()  // deleting zeros
 {
     bool checker = false;
     unsigned int index = 0;
@@ -494,7 +494,8 @@ void BigInteger::badZeros()//нужная проверка для некотор
         {
             break;
         }
-    }//1234500 2 7 5
+    }
+    
     if (checker)
     {
         unsigned int* tmp = new unsigned int[count_ - index];
@@ -597,9 +598,9 @@ bool BigInteger::operator> (const BigInteger& a)
                 }
             }
         }
-        return false; //числа равны
+        return false;  // numbers are equal
     }
-    else// minus_ == a.minus_ == true
+    else 
     {
         if (count_ < a.count_)
         {
@@ -619,7 +620,7 @@ bool BigInteger::operator> (const BigInteger& a)
                 }
             }
         }
-        return false;//числа равны
+        return false;  // numbers are equal
     }
 }
 
@@ -653,9 +654,9 @@ bool BigInteger::operator< (const BigInteger& a)
                 }
             }
         }
-        return false; //числа равны
+        return false; 
     }
-    else// minus_ == a.minus_ == true
+    else
     {
         if (count_ < a.count_)
         {
@@ -675,7 +676,7 @@ bool BigInteger::operator< (const BigInteger& a)
                 }
             }
         }
-        return false;//числа равны
+        return false;
     }
 }
 
@@ -870,19 +871,19 @@ BigInteger& BigInteger::operator+=(const BigInteger& a)
     }
     else if (!minus_ && a.minus_)
     {
-        if (*this < -a)//1 += -2
+        if (*this < -a)  //1 += -2
         {
             *this = (-a) - *this;
             minus_ = true;
             return *this;
         }
-        else//2 += -1
+        else  //2 += -1
         {
             *this = *this - (-a);
             return *this;
         }
     }
-    else//minus_ && !a.minus
+    else  //minus_ && !a.minus
     {
         if ((-*this) > a)//-100 += 2
         {
@@ -890,7 +891,7 @@ BigInteger& BigInteger::operator+=(const BigInteger& a)
             minus_ = true;
             return *this;
         }
-        else // -1 + 2
+        else  // -1 + 2
         {
             *this = a - (-*this);
             minus_ = false;
@@ -936,13 +937,13 @@ BigInteger& BigInteger::operator-=(const BigInteger& a)
     }
     else if (!minus_ && !a.minus_)
     {
-        if (*this > a)// 2 - 1
+        if (*this > a)  
         {
             this->dif(a);
             minus_ = false;
             return *this;
         }
-        else//1 - 2
+        else  
         {
             *this = copy.dif(*this);
             minus_ = true;
@@ -950,14 +951,13 @@ BigInteger& BigInteger::operator-=(const BigInteger& a)
         }
     }
     else if (minus_ && a.minus_)
-    {//-1 -= -5
+    {
         if (*this > a)
         {
             *this = (-copy).dif(-*this);
-            //minus_ = false;
             return *this;
         }
-        else//-5 -= -1
+        else
         {
             *this = -this->dif(-copy);
             minus_ = true;
@@ -965,13 +965,13 @@ BigInteger& BigInteger::operator-=(const BigInteger& a)
         }
     }
     else if (!minus_ && a.minus_)
-    {//1 -= -2 = 3// 100 -= -8 = 108
+    {
         *this = *this + (-a);
         minus_ = false;
         return *this;
     }
     else
-    {//-1 -= 2 // -10 -= 1
+    {
         *this = -*this + a;
         minus_ = true;
         return *this;
@@ -1005,14 +1005,6 @@ BigInteger operator+(long a, const BigInteger& b)
     return (BigInteger)a + b;
 }
 
-/*
-BigInteger operator+ (const BigInteger& X, const BigInteger& Y)
-{
-    BigInteger(Z(X);
-    Z += Y;
-    return Z;
-}
-*/
 BigInteger BigInteger::operator-(const BigInteger& a) const
 {
     BigInteger result = *this;
@@ -1042,7 +1034,7 @@ BigInteger BigInteger::operator~()
 
 BigInteger BigInteger::operator&(const BigInteger& a) const
 {
-    BigInteger copy1, copy2, result;//copy1 - меньший по количеству count_
+    BigInteger copy1, copy2, result;
     int index = count_ < a.count_ ? count_ : a.count_;
     if (count_ < a.count_)
     {
@@ -1257,11 +1249,7 @@ BigInteger& BigInteger::operator>>=(unsigned int a)
     int s = a % td;
 
     unsigned int* tmp = new unsigned int[count_ - z];
-    //for (int k = 0; k < count_ - z; ++k)
-    //{
-    //	tmp[k] = 0;
-    //}
-    //tmp[count_ - z] = digits_[count_] >> s;
+    
     tmp[count_ - z - 1] = digits_[count_ - 1] >> s;
     for (int i = z; i < count_ - 1; ++i)
     {
@@ -1291,11 +1279,10 @@ BigInteger& BigInteger::operator*= (const BigInteger& a) {
         return *this;
     }
     ///////////////////////////////////////////////
-    //BigInteger copy1, copy2, result;
     BigInteger result;
     delete[] result.digits_;
     result.count_ = count_ + a.count_ + 1;
-    result.minus_ = (minus_ + a.minus_) % 2;// обратное эквивал, слож по мод 2
+    result.minus_ = (minus_ + a.minus_) % 2;// XOR
     result.digits_ = new unsigned int[result.count_];
     unsigned long long tmp = 0;
     unsigned int ost = 0;
@@ -1398,12 +1385,11 @@ BigInteger& BigInteger::operator/= (const BigInteger& a)
     result.count_ = count_ - a.count_ + 1;
     result.digits_ = new unsigned int[result.count_];
     BigInteger copy2 = a;
+
     ////////////////////////////////////////////////////////d1
+    
     unsigned long long d = MAX_DIGIT_INT / (a.digits_[a.count_ - 1] + 1);
-    /*if (d == 1)
-    {
-        digits_[count_ - 1] = 0;
-    }*/
+
     *this *= d;
     if (count_ <= cnt)
     {
@@ -1525,7 +1511,7 @@ BigInteger& BigInteger::operator%= (const BigInteger& a)
         minus_ = result.minus_;
         return *this;
     }
-    //int n = a.count_, m = count_ - a.count_;
+
     int cnt = count_;
     BigInteger result;
     delete[] result.digits_;
@@ -1534,10 +1520,7 @@ BigInteger& BigInteger::operator%= (const BigInteger& a)
     BigInteger copy2 = a;
     ////////////////////////////////////////////////////////d1
     unsigned long long d = MAX_DIGIT_INT / (a.digits_[a.count_ - 1] + 1);
-    /*if (d == 1)
-    {
-        digits_[count_ - 1] = 0;
-    }*/
+
     *this *= d;
     if (count_ <= cnt)
     {

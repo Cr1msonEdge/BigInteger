@@ -58,8 +58,6 @@ public:
     BigInteger operator-(const BigInteger& a) const;
     //////////////////////////////////////////
 
-    //BigInteger& mover(int a = 1);
-    //BigInteger mult(unsigned int a);
     BigInteger& addZero(int cnt = 1);
     BigInteger& operator*= (const BigInteger& a);
     BigInteger operator*(const BigInteger& a) const;

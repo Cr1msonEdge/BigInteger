@@ -9,6 +9,3 @@ void main()
 	std::cout << "a = " << a << " , b = " << b << std::endl;
 	system("pause");
 }
-
-
-
