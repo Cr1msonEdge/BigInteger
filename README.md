@@ -26,6 +26,7 @@ For the BigInteger class, implement:
 ### Description
 - The digits of a number are represented by at least 32-bit numbers, all the bits in their representation are used.
 - External libraries are not used (the exception is std::string when implementing to_string, std::numeric_limits).
+- The project includes tests using Google Test.
 
 ### Literature
 - [Knuth art of computer programming volume 2](https://www.haio.ir/app/uploads/2022/01/The-art-of-computer-programming.-Vol.2.-Seminumerical-algorithms-by-Knuth-Donald-E-z-lib.org_.pdf)
